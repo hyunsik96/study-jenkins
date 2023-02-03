@@ -4,7 +4,7 @@
 FROM golang:1.16-alpine
 
 # work dir
-WORKDIR /home/blog/server
+WORKDIR /home/goroot/study-jenkins
 
 # host pc의 현재경로의 디렉토리를 workdir 의 디렉토리로 복사
 COPY . .
