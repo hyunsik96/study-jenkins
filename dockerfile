@@ -1,20 +1,17 @@
-FROM golang:alpine AS builder
+## Dockerfile(go)
 
-ENV GO111MODULE=on \
-    CGO_ENABLED=0 \
-    GOOS=linux \
-    GOARCH=amd64
+# golang 이미지를 사용
+FROM golang:1.16-alpine
 
-WORKDIR /build
+# work dir
+WORKDIR /home/blog/server
 
-COPY go.mod go.sum main.go ./
-RUN go mod download
-RUN go build -o main .
+# host pc의 현재경로의 디렉토리를 workdir 의 디렉토리로 복사
+COPY . .
 
-WORKDIR /dist
-RUN cp /build/main .
+# 5000 포트 오픈
+EXPOSE 5000
 
-FROM scratch
-COPY --from=builder /dist/main .
+RUN GOOS=linux GOARCH=amd64 go build -o main
 
-ENTRYPOINT ["/main"]
+CMD [ "./main" ]
